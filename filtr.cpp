@@ -64,6 +64,10 @@ void Filtr::load_img(QImage& _img){
  int destWidth = destImage.width();
  int destHeight = destImage.height();
 
+
+
+
+
  Matrix_R = new int*[destHeight];
  Matrix_G = new int*[destHeight];
  Matrix_B = new int*[destHeight];
@@ -81,8 +85,8 @@ void Filtr::load_img(QImage& _img){
 
 
 
-  for (int x =0; x<destHeight; x++){
-       for (int i =0; i<destWidth; i++){
+  for (int x =0; x<destHeight-1; x++){
+       for (int i =0; i<destWidth-1; i++){
 
       Matrix_R[x][i] = qRed(destImage.pixel(i,x));
       Matrix_G[x][i] =  qGreen(destImage.pixel(i,x));
@@ -92,13 +96,13 @@ void Filtr::load_img(QImage& _img){
   }
 
 
+  delete values_tab_down;
+  delete values_tab_up;
+  values_tab_down = nullptr;
+  values_tab_up = nullptr;
 
-  for (int x =0; x<destImage.height(); x++){
-      for (int i =0; i<destImage.width(); i++){
-       qInfo()<<"WSP:"<<x<<" "<<i<<" "<<Matrix_R[x][i];
-       qInfo()<<"WSPF:"<<x<<" "<<i<<" "<<qRed(destImage.pixel(x,i));
-  }
-  }
+
+
 
 
 

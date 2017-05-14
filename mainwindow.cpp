@@ -71,7 +71,9 @@ void MainWindow::on_execute_clicked()
 
    if(ui->comboBox->currentText() ==  "filtr1" && demaged){
 
+    filrt_vmf.set_winsize(5);
     filrt_vmf.load_img(image2);
+
     qInfo()<< "Execute clicked...";
     Stoper st;
     st.Start();
