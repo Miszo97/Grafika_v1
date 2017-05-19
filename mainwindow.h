@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include "generator.h"
+#include <QKeyEvent>
 
 namespace Ui {
 class MainWindow;
@@ -22,6 +23,11 @@ public:
     QMessageBox msgBox;
     QImage vmf(QImage img, int);
 
+
+protected:
+    virtual void keyPressEvent(QKeyEvent * event);
+
+
 private slots:
     void on_loadafile_clicked();
 
@@ -34,6 +40,8 @@ private slots:
 
 
     void on_Set_clicked();
+
+
 
 public:
     Ui::MainWindow *ui;

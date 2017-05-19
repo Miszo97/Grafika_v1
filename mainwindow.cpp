@@ -19,6 +19,18 @@
  QImage image3;
 
 
+ void MainWindow::keyPressEvent(QKeyEvent * a)
+ {
+     if (ui->lineEditOfp->isModified()){
+         if( a->key() == Qt::Key_Return || a->key() == Qt::Key_Enter)
+         {
+             QString text = ui->lineEditOfp->text();
+             double number = text.toDouble();
+             generator.set_p(number/100);
+         }
+     }
+ }
+
 
 
 
@@ -124,7 +136,7 @@ void MainWindow::on_dealDMG_clicked()
         generator.set_type(Generator::CTRI);
 
         image2 = generator<<image1;
-         demaged = true;
+        demaged = true;
         ui->Image_bar_2->setPixmap(QPixmap::fromImage(image2));
 
 
@@ -154,3 +166,5 @@ void MainWindow::on_Set_clicked()
     double number = text.toDouble();
     generator.set_p(number/100);
 }
+
+

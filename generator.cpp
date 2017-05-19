@@ -154,7 +154,8 @@ Generator::Generator(){
 
     }
 
-
+     pixels.clear();
+     pixels_demaged.clear();
      return obraz;
  }
 
