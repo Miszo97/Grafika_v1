@@ -10,29 +10,31 @@ class Generator : public QObject
 
 
 public:
-    enum  type {CTRI, CIRI};
+
     QList<QPoint> pixels;
-    QList<QPoint> pixels_demaged;
+
+    void ctri(QImage*);
+    void ciri(QImage*);
 
 
+    QImage deal_dmg(QImage, void(Generator::*ptrfun)(QImage*));
 
-    QImage operator<<(QImage);
 
-
-    Generator(type , double);
+    Generator(double);
     Generator();
 
     double get_p();
-    type get_type();
+
 
     void set_p(double);
-    void set_type(Generator::type);
+
 
 
 
 private:
-    type typ;
+
     double p;
+
 
 
 signals:

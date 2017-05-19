@@ -120,11 +120,11 @@ void MainWindow::on_dealDMG_clicked()
 {
     if(ui->radioButton->isChecked()){
 
-        generator.set_type(Generator::CIRI);
 
 
 
-        image2 = generator<<image1;
+
+        image2 = generator.deal_dmg(image1,&Generator::ciri);
 
 
         demaged = true;
@@ -133,9 +133,9 @@ void MainWindow::on_dealDMG_clicked()
     } else if (ui->radioButton_2->isChecked()){
 
 
-        generator.set_type(Generator::CTRI);
 
-        image2 = generator<<image1;
+
+        image2 = generator.deal_dmg(image1,&Generator::ctri);
         demaged = true;
         ui->Image_bar_2->setPixmap(QPixmap::fromImage(image2));
 
