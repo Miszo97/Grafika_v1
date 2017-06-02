@@ -8,10 +8,12 @@
 #include "Stoper.h"
 #include <iostream>
 #include "filtr.h"
-#include "vmf.h";
+#include "vmf.h"
+#include "fastamf.h"
 
 
  Vmf filrt_vmf;
+ FASTAMF filtr_fastamf;
 
  bool loaded, demaged;
  QImage image1;
@@ -81,7 +83,7 @@ void MainWindow::on_execute_clicked()
 
     if(loaded){
 
-   if(ui->comboBox->currentText() ==  "filtr1" && demaged){
+   if(ui->comboBox->currentText() ==  "VMF" && demaged){
 
     filrt_vmf.set_winsize(5);
     filrt_vmf.load_img(image2);
@@ -100,9 +102,17 @@ void MainWindow::on_execute_clicked()
 
 
 
-   } else if (ui->comboBox->currentText() ==  "filtr2" ) {
-        image3 = image3.scaledToWidth(ui->Image_bar_3->width(), Qt::SmoothTransformation);
-       image3.invertPixels(QImage::InvertRgba);
+   } else if (ui->comboBox->currentText() ==  "FASTAMF" ) {
+       filtr_fastamf.set_winsize(5);
+       filtr_fastamf.load_img(image2);
+
+       qInfo()<< "Execute clicked...";
+       Stoper st;
+       st.Start();
+       image3 = filtr_fastamf.filtr();
+       st.Stop();
+
+       qInfo()<<"Czas wykonywnia: "<<st.GetMs()<<" ms";
        ui->Image_bar_3->setPixmap(QPixmap::fromImage(image3));
    }
 

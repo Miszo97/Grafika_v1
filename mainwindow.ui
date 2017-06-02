@@ -90,12 +90,12 @@
     </property>
     <item>
      <property name="text">
-      <string>filtr1</string>
+      <string>VMF</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>filtr2</string>
+      <string>FASTAMF</string>
      </property>
     </item>
    </widget>

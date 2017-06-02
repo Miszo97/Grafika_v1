@@ -64,11 +64,21 @@ QImage Vmf::filtr(){
 
 
 
+//        for (int i = 0; i<size; i++){
+//            for (int x = 0; x<size; x++){
+//                maskR[i*size+x] = Matrix_R[wsp_x+i][wsp_y+x];
+//                maskG[i*size+x] = Matrix_G[wsp_x+i][wsp_y+x];
+//                maskB[i*size+x] = Matrix_B[wsp_x+i][wsp_y+x];//!!!
+
+//            }
+//        }
+
         for (int i = 0; i<size; i++){
             for (int x = 0; x<size; x++){
-                maskR[i*size+x] = Matrix_R[wsp_x+i][wsp_y+x];
-                maskG[i*size+x] = Matrix_G[wsp_x+i][wsp_y+x];
-                maskB[i*size+x] = Matrix_B[wsp_x+i][wsp_y+x];//!!!
+
+                *(maskR + (i*size+x)) = Matrix_R[wsp_x+i][wsp_y+x];
+                *(maskG + (i*size+x)) = Matrix_G[wsp_x+i][wsp_y+x];
+                *(maskB + (i*size+x)) = Matrix_B[wsp_x+i][wsp_y+x];//!!!
 
             }
         }

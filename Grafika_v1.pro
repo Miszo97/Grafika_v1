@@ -28,12 +28,14 @@ SOURCES += main.cpp\
     generator.cpp \
     Stoper.cpp \
     filtr.cpp \
-    vmf.cpp
+    vmf.cpp \
+    fastamf.cpp
 
 HEADERS  += mainwindow.h \
     generator.h \
     Stoper.h \
     filtr.h \
-    vmf.h
+    vmf.h \
+    fastamf.h
 
 FORMS    += mainwindow.ui

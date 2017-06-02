@@ -4,7 +4,7 @@
 #include <QButtonGroup>
 #include <QAbstractButton>
 #include <cstdlib>
-
+#include "fastamf.h"
 
 
 int main(int argc, char *argv[])

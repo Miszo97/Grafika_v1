@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include "generator.h"
 #include <QKeyEvent>
+#include "fastamf.h"
 
 namespace Ui {
 class MainWindow;
