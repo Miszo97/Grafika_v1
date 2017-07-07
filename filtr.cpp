@@ -22,7 +22,7 @@ void Filtr::load_img(QImage& _img){
     QRgb ** values_tab_up = new QRgb * [size];
     QRgb ** values_tab_down = new QRgb * [size];
 
-     for(int i=0; i<((size-1)/2); i++)
+     for(int i=((size-1)/2)-1; 0<=i; i--)
     values_tab_up[i] = reinterpret_cast<QRgb *>(img.scanLine(i)); // wskaźnik do górnego szeregu pikseli prawdziwego obrazu
 
      for(int i=0; i<((size-1)/2); i++)
@@ -37,7 +37,7 @@ void Filtr::load_img(QImage& _img){
 
  for(int x=0; x<((size-1)/2); x++){
    for(int i =((size-1)/2); i<destImage.width()-((size-1)/2); i++){                                                        //pętla dodająca dodatkowy szereg pikseli na dole
-    destImage.setPixel(i,destImage.height()-1, qRgb(qRed(values_tab_down[x][i-((size-1)/2)]),qGreen(values_tab_down[x][i-((size-1)/2)]),qBlue(values_tab_down[x][i-((size-1)/2)])));
+    destImage.setPixel(i,destImage.height()-1 - x, qRgb(qRed(values_tab_down[x][i-((size-1)/2)]),qGreen(values_tab_down[x][i-((size-1)/2)]),qBlue(values_tab_down[x][i-((size-1)/2)])));
    }
  }
 

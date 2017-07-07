@@ -11,10 +11,17 @@ class Generator : public QObject
 
 public:
 
-    QList<QPoint> pixels;
+
 
     void ctri(QImage*);
     void ciri(QImage*);
+    QPoint * allPixels;
+
+    int **Matrix_R;
+    int **Matrix_G;
+    int **Matrix_B;
+
+
 
 
     QImage deal_dmg(QImage, void(Generator::*ptrfun)(QImage*));

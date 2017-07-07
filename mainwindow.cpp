@@ -10,7 +10,8 @@
 #include "filtr.h"
 #include "vmf.h"
 #include "fastamf.h"
-
+#include "functions.h"
+#include <tuple>
 
  Vmf filrt_vmf;
  FASTAMF filtr_fastamf;
@@ -51,25 +52,31 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::on_loadafile_clicked()
+
 {
-    QString filename = QFileDialog::getOpenFileName(this, tr("Choose"), "", tr("Images (*.png *.jpg *.jpeg *.bmp *.gif"));
+
+    if(loaded)
+        ui->drop_down_list->clear();
+
+    QString filename = QFileDialog::getOpenFileName(this,tr("Open Image"), "/home/jana", tr("Image Files (*.png *.jpg *.bmp)"));
 
     if (QString::compare(filename, QString())!= 0){
 
 
         bool valid = image1.load(filename);
-        image2.load(filename);
+
 
 
         if(valid)
         {
 
-            image1 = image1.scaledToWidth(ui->Image_bar_1->width(), Qt::SmoothTransformation);
 
 
 
-            ui->Image_bar_1->setPixmap(QPixmap::fromImage(image1));
+
+            ui->Image_bar_1->setPixmap(QPixmap::fromImage(image1.scaledToWidth(ui->Image_bar_1->width(), Qt::SmoothTransformation)));
             loaded = true;
+            ui->drop_down_list->addItem(tr("image1"));
 
 
         } else {
@@ -81,48 +88,81 @@ void MainWindow::on_loadafile_clicked()
 void MainWindow::on_execute_clicked()
 {
 
-    if(loaded){
 
-   if(ui->comboBox->currentText() ==  "VMF" && demaged){
+    if(loaded && demaged){
 
-    filrt_vmf.set_winsize(5);
-    filrt_vmf.load_img(image2);
+        if (generator.get_p()!=0 && (filtr_fastamf.get_winsize()%2) && filtr_fastamf.get_winsize() >=3){
 
-    qInfo()<< "Execute clicked...";
-    Stoper st;
-    st.Start();
-    image3 = filrt_vmf.filtr();
-    st.Stop();
-
-   qInfo()<<"Czas wykonywnia: "<<st.GetMs()<<" ms";
-
-    image3 = image3.scaledToWidth(ui->Image_bar_3->width(), Qt::SmoothTransformation);
-
-    ui->Image_bar_3->setPixmap(QPixmap::fromImage(image3));
+            if(ui->comboBox->currentText() ==  "VMF" && demaged){
 
 
+                filrt_vmf.load_img(image2);
 
-   } else if (ui->comboBox->currentText() ==  "FASTAMF" ) {
-       filtr_fastamf.set_winsize(5);
-       filtr_fastamf.load_img(image2);
 
-       qInfo()<< "Execute clicked...";
-       Stoper st;
-       st.Start();
-       image3 = filtr_fastamf.filtr();
-       st.Stop();
+                qInfo()<< "Execute clicked...";
+                Stoper st;
+                st.Start();
+                image3 = filrt_vmf.filtr();
+                st.Stop();
 
-       qInfo()<<"Czas wykonywnia: "<<st.GetMs()<<" ms";
-       ui->Image_bar_3->setPixmap(QPixmap::fromImage(image3));
-   }
+                qInfo()<<"Czas wykonywnia: "<<st.GetMs()<<" ms";
 
+
+                ui->Image_bar_3->setPixmap(QPixmap::fromImage(image3.scaledToWidth(ui->Image_bar_3->width(), Qt::SmoothTransformation)));
+
+
+
+
+
+
+            } else if (ui->comboBox->currentText() ==  "FASTAMF" ) {
+
+                filtr_fastamf.load_img(image2);
+
+                qInfo()<< "Execute clicked...";
+                Stoper st;
+                st.Start();
+                image3 = filtr_fastamf.filtr();
+                st.Stop();
+
+                qInfo()<<"Czas wykonywnia: "<<st.GetMs()<<" ms";
+
+                ui->Image_bar_3->setPixmap(QPixmap::fromImage(image3.scaledToWidth(ui->Image_bar_3->width(), Qt::SmoothTransformation)));
+
+            }
+            if (ui->drop_down_list->count() != 3)
+                ui->drop_down_list->addItem(tr("image3"));
+
+
+
+
+
+            auto PSNR_MAE_img_1_3 = getPSNR_MAE(image1, image3);
+            auto PSNR_MAE_img_1_2 = getPSNR_MAE(image1, image2);
+
+            ui->psnr_result->setText(QString::number(std::get<0>(PSNR_MAE_img_1_3)));
+            ui->mae_result->setText(QString::number(std::get<1>(PSNR_MAE_img_1_3)));
+
+            ui->psnr_result_2->setText(QString::number(std::get<0>(PSNR_MAE_img_1_2)));
+            ui->mae_result_2->setText(QString::number(std::get<1>(PSNR_MAE_img_1_2)));
+
+        }
+
+        else {
+            msgBox.setText("Either param p is 0 or incorrect winsize value");
+            msgBox.exec();
+        }
     }
-   else
-   {
+    else
+    {
 
-       msgBox.setText("Load a image first");
-       msgBox.exec();
-   }
+        msgBox.setText("Demage a image first");
+        msgBox.exec();
+    }
+
+
+
+
 
 }
 
@@ -134,11 +174,13 @@ void MainWindow::on_dealDMG_clicked()
 
 
 
+
+
         image2 = generator.deal_dmg(image1,&Generator::ciri);
 
 
         demaged = true;
-        ui->Image_bar_2->setPixmap(QPixmap::fromImage(image2));
+        ui->Image_bar_2->setPixmap(QPixmap::fromImage(image2.scaledToWidth(ui->Image_bar_2->width(), Qt::SmoothTransformation)));
 
     } else if (ui->radioButton_2->isChecked()){
 
@@ -147,7 +189,7 @@ void MainWindow::on_dealDMG_clicked()
 
         image2 = generator.deal_dmg(image1,&Generator::ctri);
         demaged = true;
-        ui->Image_bar_2->setPixmap(QPixmap::fromImage(image2));
+        ui->Image_bar_2->setPixmap(QPixmap::fromImage(image2.scaledToWidth(ui->Image_bar_2->width(), Qt::SmoothTransformation)));
 
 
 
@@ -155,8 +197,12 @@ void MainWindow::on_dealDMG_clicked()
 
         msgBox.setText("Select type of impuls first");
         msgBox.exec();
+        return;
 
     }
+
+    if (ui->drop_down_list->count() == 1)
+    ui->drop_down_list->addItem(tr("image2"));
 
 }
 
@@ -178,3 +224,49 @@ void MainWindow::on_Set_clicked()
 }
 
 
+
+void MainWindow::on_Save_clicked()
+{
+    if (ui->drop_down_list->count() != 0){
+    int index = ui->drop_down_list->currentIndex();
+    QString filename;
+    switch( index )
+    {
+    case 0:
+
+        filename = QFileDialog::getSaveFileName(this, tr("Save file"), "ORG.png", tr("Images (*.png *.jpg *.jpeg *.bmp *.gif"));
+        image1.save(filename);
+        break;
+
+    case 1:
+        filename = QFileDialog::getSaveFileName(this, tr("Save file"), "NOISY.png", tr("Images (*.png *.jpg *.jpeg *.bmp *.gif"));
+        image2.save(filename);
+        break;
+
+        //...
+    case 2:
+        filename = QFileDialog::getSaveFileName(this, tr("Save file"), "FILTRED.png", tr("Images (*.png *.jpg *.jpeg *.bmp *.gif"));
+        image3.save(filename);
+        break;
+
+    }
+
+} else
+    {
+
+        msgBox.setText("No images exist right now!");
+        msgBox.exec();
+    }
+
+}
+
+void MainWindow::on_winsize_line_editingFinished()
+{
+    filrt_vmf.set_winsize(ui->winsize_line->text().toInt());
+    filtr_fastamf.set_winsize(ui->winsize_line->text().toInt());
+}
+
+void MainWindow::on_prog_val_line_editingFinished()
+{
+    filtr_fastamf.setProgVal(ui->prog_val_line->text().toInt());
+}

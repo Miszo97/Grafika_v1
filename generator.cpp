@@ -4,6 +4,7 @@
 #include <QRgb>
 #include <QDebug>
 #include <random>
+#include "Stoper.h"
 
 Generator::Generator(double _p): p(_p){}
 Generator::Generator(): p(0.0){}
@@ -29,46 +30,56 @@ Generator::Generator(): p(0.0){}
      std::mt19937 rgen(rseed());
      std::uniform_int_distribution<int> range(0,255);
 
-     int x = obraz->width();
-     int y = obraz->height();
+     int Width = obraz->width();
+     int Height = obraz->height();
      unsigned int ran;
      QPoint px;
 
-     int size = x*y;
 
 
 
 
+     unsigned long size = Width*Height;
 
-     for (int i = 0; i<y; i++){
-
-         for (int z = 0; z<x; z++){
-
-             pixels.append(QPoint(z,i));
-
-
-
+     allPixels = new QPoint[size];
+     if(allPixels!=nullptr)
+     {
+         for (unsigned long i = 0; i<size; i++)
+         {
+             allPixels[i]  = QPoint(i%Width,i/Width);
          }
-
+     }
+     else
+     {
+         qInfo()<< "Błąd deklaracji";
      }
 
+
         int amount = p * size;
+        size--;
 
 
         for (int i = 0; i<amount; i++){
 
-         std::uniform_int_distribution<int> idist(0,size-1);
+         std::uniform_int_distribution<int> idist(0,size);
          ran= idist(rgen);
 
 
 
 
-         px = pixels[ran];
-         obraz->setPixel(px, qRgb(range(rgen),range(rgen),range(rgen)));
-         pixels.removeAt(ran);
+
+
+         obraz->setPixel(allPixels[ran].x(), allPixels[ran].y() , qRgb(range(rgen),range(rgen),range(rgen)));
+
+
+         if (ran != size)
+             allPixels[ran] = allPixels[size];
          size--;
  }
-        pixels.clear();
+
+
+        delete [] allPixels;
+        allPixels = nullptr;
  }
 
  void Generator::ciri(QImage* obraz){
@@ -77,46 +88,48 @@ Generator::Generator(): p(0.0){}
      std::mt19937 rgen(rseed());
      std::uniform_int_distribution<int> range(0,255);
 
-     int x = obraz->width();
-     int y = obraz->height();
+     int Width = obraz->width();
+     int Height = obraz->height();
      unsigned int ran;
      QPoint px;
 
-     int size = x*y;
 
+     unsigned long size = Width*Height;
 
-
-
-
-     for (int i = 0; i<y; i++){
-
-         for (int z = 0; z<x; z++){
-
-             pixels.append(QPoint(z,i));
-
-
-
+     allPixels = new QPoint[size];
+     if(allPixels!=nullptr)
+     {
+         for (unsigned long i = 0; i<size; i++)
+         {
+             allPixels[i]  = QPoint(i%Width,i/Width);
          }
-
+     }
+     else
+     {
+         qInfo()<< "Błąd deklaracji";
      }
 
 
 
 
+
+
+
             int amount = p * size;
+            size--;
             int blue,red,green;
             int quantity =0;
 
 
              for (int i = 0; i<amount; i++){
 
-                std::uniform_int_distribution<int> idist(0,size-1);
+                std::uniform_int_distribution<int> idist(0,size);
                 ran= idist(rgen);
 
 
 
 
-                px = pixels[ran];
+                px = allPixels[ran];
                 blue = qBlue(obraz->pixel(px));
                 red = qRed(obraz->pixel(px));
                 green = qGreen(obraz->pixel(px));
@@ -160,7 +173,9 @@ Generator::Generator(): p(0.0){}
 
 
                 obraz->setPixel(px, qRgb(red,green,blue));
-                pixels.removeAt(ran);
+
+                if (ran != size)
+                    allPixels[ran] = allPixels[size];
                 size--;
 
 
@@ -168,7 +183,7 @@ Generator::Generator(): p(0.0){}
 
 
 
-        pixels.clear();
-
+             delete [] allPixels;
+             allPixels = nullptr;
 
         }

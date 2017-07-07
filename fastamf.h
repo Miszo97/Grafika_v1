@@ -2,6 +2,7 @@
 #define FASTAMF_H
 #include "filtr.h"
 
+
 class FASTAMF : public Filtr
 {
 private:
@@ -17,3 +18,4 @@ public:
 };
 
 #endif // FASTAMF_H
+

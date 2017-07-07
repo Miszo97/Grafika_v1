@@ -8,6 +8,7 @@
 #include "generator.h"
 #include <QKeyEvent>
 #include "fastamf.h"
+#include <math.h>
 
 namespace Ui {
 class MainWindow;
@@ -24,6 +25,7 @@ public:
     Generator generator;
     QMessageBox msgBox;
     QImage vmf(QImage img, int);
+    double PSNR, MAE, MSE, RMSE;
 
 
 protected:
@@ -44,6 +46,12 @@ private slots:
     void on_Set_clicked();
 
 
+
+    void on_Save_clicked();
+
+    void on_winsize_line_editingFinished();
+
+    void on_prog_val_line_editingFinished();
 
 public:
     Ui::MainWindow *ui;

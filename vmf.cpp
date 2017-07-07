@@ -17,20 +17,6 @@ Vmf::Vmf(int _size){
 QImage Vmf::filtr(){
 
 
-//      for (int x =0; x<destImage.height()-1; x++){
-//          for (int i =0; i<destImage.width()-1; i++){
-//           qInfo()<<"WSP:"<<x<<" "<<i<<" "<<Matrix_R[x][i];
-//           qInfo()<<"WSPF:"<<x<<" "<<i<<" "<<qRed(destImage.pixel(i,x));
-//      }
-//      }
-
-//    for (int x =0; x<destImage.height()-1; x++){
-//        for (int i =0; i<destImage.width()-1; i++){
-//         //qInfo()<<"WSP:"<<i<<" "<<x<<" "<<Matrix_R[x][i];
-//         qInfo()<<"WSPF:"<<i<<" "<<x<<" "<<qRed(destImage.pixel(i,x));
-//    }
-//    }
-
 
     if ((size%2) && size >=3){
     int yuy;
@@ -64,14 +50,7 @@ QImage Vmf::filtr(){
 
 
 
-//        for (int i = 0; i<size; i++){
-//            for (int x = 0; x<size; x++){
-//                maskR[i*size+x] = Matrix_R[wsp_x+i][wsp_y+x];
-//                maskG[i*size+x] = Matrix_G[wsp_x+i][wsp_y+x];
-//                maskB[i*size+x] = Matrix_B[wsp_x+i][wsp_y+x];//!!!
 
-//            }
-//        }
 
         for (int i = 0; i<size; i++){
             for (int x = 0; x<size; x++){
@@ -85,9 +64,6 @@ QImage Vmf::filtr(){
 
 
 
-    //         /*for (int i = 0; i<9; i++){
-    //             qInfo()<<qRed(mask[i])<<qGreen(mask[i])<<qBlue(mask[i])<<" "<<wsp_x<<" "<<wsp_y;
-    //        }
 
      double p;
 
@@ -110,9 +86,7 @@ QImage Vmf::filtr(){
 
 
 
-//                       for (int i = 0; i<9; i++){
-//                             qInfo()<<"Suma "<<i<<" "<<sumas[i];
-//                       }
+
 
              double smallest = INT_MAX;
              for (int i = 0; i < size*size; i++) {  //!!!
@@ -153,9 +127,12 @@ QImage Vmf::filtr(){
 
 
     qInfo()<< "Successfully converted!";
+
     return img;
     } else
         qInfo()<< "Incorrect size!";
+
+
     return img;
 
 
