@@ -11,7 +11,7 @@ You are able to load (.png .jpg .bmp) formats. Just click the pointed button. Th
 ![stack Overflow](http://i.imgur.com/ijt1Ohn.png)
 
 ## Deal demage to the image.
-This is the moment when you can damage your image with a noise generator. It has two options CIRI and CTRI.Set the saturation of noise by typing how muny pixels should be damaged.
+This is the moment when you can damage your image with a noise generator. It has two options CIRI and CTRI.Set the saturation of noise by typing how many pixels should be damaged.
 
 ![stack Overflow](http://i.imgur.com/tmTuJ1s.png)
 
